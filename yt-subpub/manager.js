@@ -7,7 +7,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 // Schedule tasks to be run on the server.
 function startCronScheduler() {
     console.log("Starting scheduler")
-    cron.schedule('* * * * *', function () {
+    cron.schedule('0 0 * * *', function () {
         retrieveSubscriptions()
     });
 }
