@@ -15,7 +15,6 @@ function startCronScheduler() {
 async function retrieveSubscriptions() {
     const currentTime = moment();
     const modifiedTime = currentTime.subtract(1, 'day');
-    console.log(modifiedTime.format('YYYY-MM-DD HH:mm:ss'));
 
     const subscriptions = await prisma.subscriptions.findMany()
     subscriptions.forEach(sub => {
