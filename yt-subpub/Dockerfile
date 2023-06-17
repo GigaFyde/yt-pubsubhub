@@ -6,23 +6,17 @@ RUN apk --no-cache add curl ca-certificates \
 # Turn down the verbosity to default level.
 ENV NPM_CONFIG_LOGLEVEL warn
 
-RUN chmod 777 /tmp
+WORKDIR /usr/src/app
 
-USER app
 
-RUN mkdir -p /home/app/function
+COPY package*.json ./
 
-# Entrypoint
-WORKDIR /home/app
-COPY --chown=app:app . ./
-
-# This ordering means the npm installation is cached for the outer function handler.
 RUN npm ci --omit=dev
+COPY . .
 
-# Run any tests that may be available
+RUN npx prisma generate
+
 RUN npm test
 
-# Set correct permissions to use non root user
-WORKDIR /home/app/
-
-CMD [ "node", "server.js" ]
+EXPOSE 3000
+CMD [ "node", "index.js" ]
