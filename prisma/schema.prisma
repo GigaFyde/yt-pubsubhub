@@ -11,9 +11,8 @@ datasource db {
 }
 
 model videos {
-  id        Int    @id @default(autoincrement())
-  channelId String @unique
-  videoId   String @unique
+  id      Int    @id @default(autoincrement())
+  videoId String @unique
 }
 
 model subscriptions {
