@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 router.get('/', async (req, res, next) => {
     if (req.query["hub.challenge"]) {
+        console.log("we got a hub challenge!")
         res.status(200).send(req.query["hub.challenge"])
     } else {
         res.status(444).send()

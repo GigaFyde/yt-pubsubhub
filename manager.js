@@ -6,6 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 
 // Schedule tasks to be run on the server.
 function startCronScheduler() {
+    retrieveSubscriptions()
     console.log("Starting scheduler")
     cron.schedule('0 0 * * *', function () {
         retrieveSubscriptions()
@@ -27,7 +28,7 @@ async function retrieveSubscriptions() {
 
 async function updateSubscriptionExpiry(id) {
     const currentTime = moment();
-    const modifiedTime = currentTime.add(7, 'day');
+    const modifiedTime = currentTime.add(4, 'day');
     await prisma.subscriptions.update({
         where: {
             id: id
@@ -51,6 +52,7 @@ async function refreshSubscription(id, callback, topic) {
             'hub.lease_seconds': 604800
         })
     });
+    console.log(req.status)
     if (req.status === 202) {
         console.log("refresh succeeded")
         await updateSubscriptionExpiry(id)
